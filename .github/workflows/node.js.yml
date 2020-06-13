@@ -23,6 +23,10 @@ jobs:
       uses: actions/checkout@master
     - name: Install Dependencies
       run: npm install
+    - name: npm test:ci
+      run: npm run test:ci
+      env:
+         CI: ''
     - name: Build
       run: npm run build
     - name: Archive Artifacts

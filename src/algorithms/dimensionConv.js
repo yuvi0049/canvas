@@ -1,6 +1,6 @@
 import dimensions from '../constants/dimensions';
 
-export default function dimensionConv(data) {
+export default function dimensionConv(data, defaultRender) {
     const templateJSON = data.templateJSON && JSON.parse(data.templateJSON);
     let resultTemplate = [];
 
@@ -24,31 +24,39 @@ export default function dimensionConv(data) {
                 updatedHeight = dimensions.square.height;
                 break;
             default:
-                updatedWidth = dimensions.square.width;
-                updatedHeight = dimensions.square.height;
+                updatedWidth = 1;
+                updatedHeight = 1;
                 break;
         };
 
         resultTemplate = templateJSON.children && templateJSON.children.map(element => {
-            let X = (element.x / width) * updatedWidth;
-            let Y = (element.y / width) * updatedHeight;
-
-            const newWidth = (element.width / width) * updatedWidth;
-            const newHeight = (element.height / width) * updatedHeight;
+            let X, Y, newWidth, newHeight;
 
             let fontSize = 0,
                 type = element.type ? element.type : '';
 
-            if (element.type === 'Image' && data.dimension != 3) {
-                const widthRatio = newWidth / element.width;
-                const heightRatio = newHeight / element.height;
+            if (defaultRender && updatedWidth === 1 && updatedHeight === 1) {
+                X = element.x;
+                Y = element.y;
+                newWidth = width;
+                newHeight = width;
+            } else{
+                X = (element.x / width) * updatedWidth;
+                Y = (element.y / width) * updatedHeight;
+                newWidth = (element.width / width) * updatedWidth;
+                newHeight = (element.height / width) * updatedHeight;
 
-                if (widthRatio < heightRatio) {
-                    Y = Y + Math.abs((newHeight - Y) / 2);
-                } else {
-                    X = X + Math.abs((newWidth - X) / 2);
+                if (element.type === 'Image' && data.dimension != 3) {
+                    const widthRatio = newWidth / element.width;
+                    const heightRatio = newHeight / element.height;
+    
+                    if (widthRatio < heightRatio) {
+                        Y = Y + Math.abs((newHeight - Y) / 2);
+                    } else {
+                        X = X + Math.abs((newWidth - X) / 2);
+                    }
                 }
-            }
+            };
 
             // @ Specific Cases
 

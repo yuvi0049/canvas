@@ -33,14 +33,22 @@ export default function InputField(props) {
       setDimension(event.target.value);
     };
 
-    const createCanvas = () => {
-      if (validateJSON(templateJSON) && dimension) {
-        props.onCreate(templateJSON, dimension);
-      } else {
-        if (!validateJSON(templateJSON)) {
+    const createCanvas = (defaultRender) => {
+      if (defaultRender) {
+        if (validateJSON(templateJSON)) {
+          props.onCreate(templateJSON);
+        } else{
           alert("Not Valid JSON");
-        } else if (!dimension) {
-          alert("Select Dimension");
+        }
+      } else {
+        if (validateJSON(templateJSON) && dimension) {
+          props.onCreate(templateJSON, dimension);
+        } else {
+          if (!validateJSON(templateJSON)) {
+            alert("Not Valid JSON");
+          } else if (!dimension) {
+            alert("Select Dimension");
+          }
         }
       }
     };
@@ -58,6 +66,10 @@ export default function InputField(props) {
                 rows={16}
               />
 
+              <Button variant="contained" color="primary" onClick={() => createCanvas(true)} style={{margin: '40px 10px'}}>
+                Render Default Canvas
+              </Button>
+
               <FormControl className={classes.formControl} style={{margin: '10px'}}>
                 <Select
                   value={dimension}
@@ -74,7 +86,7 @@ export default function InputField(props) {
               </FormControl>
             </div>
 
-            <Button variant="contained" color="primary" onClick={createCanvas} style={{margin: '10px'}}>
+            <Button variant="contained" color="primary" onClick={() => createCanvas(false)} style={{margin: '10px'}}>
               Create Canvas
             </Button>
           </form>

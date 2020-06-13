@@ -15,24 +15,41 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-let childKey = 0;
+let childKey = 0,
+    childDefaultKey = 0;
 
 export default function HomePage() {
     const classes = useStyles();
-    const [state, setState] = React.useState('');
+    const [state, setState] = React.useState({
+        default: '',
+        custom: ''
+    });
+    const [defaultRender, setDefaultRender] = React.useState(true);
     
     const createCanvas = (templateJSON, dimension) => {
-        setState(dimensionConv({ templateJSON, dimension}));
+        if (dimension) {
+            setState({...state, custom: dimensionConv({ templateJSON, dimension}, false)});
+        } else {
+            setState({...state, default: dimensionConv({ templateJSON }, true)});
+        }
+
+        setDefaultRender(!dimension);
     };
 
     ++childKey;
+    ++childDefaultKey;
     return(
-        <Grid container className={classes.root}>
-            <Grid item xs={12} md={3}>
+        <Grid container className={classes.root} spacing={0}>
+            <Grid item xs={12} md={3} style={{padding: '5px'}}>
                 <InputField onCreate={(templateJSON, dimension) => createCanvas(templateJSON, dimension)} />
             </Grid>
+
+            <Grid item xs={9} style={{padding: '5px'}}>
+                <Canvas layers={state.default} key={childKey} defaultRender={true} />
+            </Grid>
+
             <Grid item xs={12}>
-                <Canvas layers={state} key={childKey} />
+                <Canvas layers={state.custom} key={childDefaultKey} />
             </Grid>
         </Grid>
     );

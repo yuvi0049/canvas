@@ -73,17 +73,22 @@ export default function Canvas(props) {
     }
 
     return (
-        <div>
-          {props.layers ? (<Fragment>
+        <Fragment>
+          {!!props.defaultRender ? (
+            <div className={classes.root}>
+              <canvas ref={canvasRef} width={920} height={720} />
+            </div>) : ''}
+
+          {!!Object.keys(props.layers).length && !props.defaultRender ? (<Fragment>
             <div className={classes.root}>
               <h3>Your Canvas here</h3>
-              <canvas ref={canvasRef} width={1240} height={1240} />
+              <canvas ref={canvasRef} width={1080} height={1080} />
             </div>
 
             <Button variant="contained" color="primary" onClick={saveCanvas} style={{margin: '10px'}}>
               Save this Canvas
             </Button>
           </Fragment>) : ''}
-        </div>
+        </Fragment>
     );
 };

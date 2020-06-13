@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  let childKey = 0;
+
   export default function HomePage() {
     const classes = useStyles();
     const [state, setState] = React.useState('');
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     let canvasReference;
 
     const createCanvas = (templateJSON, dimension) => {
-        if (canvasReference) { 
+        if (canvasReference) {
             canvasReference.dispose();
         }
 
@@ -33,13 +35,14 @@ const useStyles = makeStyles((theme) => ({
         canvasReference = canvas;
     }
 
+    ++childKey;
     return(
         <Grid container className={classes.root}>
             <Grid item xs={12} md={4}>
                 <InputField onCreate={(templateJSON, dimension) => createCanvas(templateJSON, dimension)} />
             </Grid>
             <Grid item xs={12}>
-                <Canvas layers={state} setCanvas={setCanvasObject} />
+                <Canvas layers={state} setCanvas={setCanvasObject} key={childKey} />
             </Grid>
         </Grid>
     );

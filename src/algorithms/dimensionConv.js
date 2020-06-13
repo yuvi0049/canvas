@@ -37,7 +37,8 @@ export default function dimensionConv(data) {
             const newWidth = (element.width / width) * updatedWidth;
             const newHeight = (element.height / width) * updatedHeight;
 
-            const fontSize = element.fontSize ? (element.fontSize / width) * updatedWidth : 0;
+            let fontSize = 0,
+                type = element.type ? element.type : '';
 
             if (element.type === 'Image' && data.dimension != 3) {
                 const widthRatio = newWidth / element.width;
@@ -50,7 +51,22 @@ export default function dimensionConv(data) {
                 }
             }
 
+            // @ Specific Cases
+
+            if (element.subType === "TEXT") {
+                fontSize = element.fontSize ? (element.fontSize / width) * updatedWidth : 0;
+            }
+
+            if (element.name === "Rectange") {
+                type = "rect";
+            }
+
+            if (element.name === "Image") {
+                type = "Image";
+            }
+
             return {...element,
+                    type: type,
                     text: element.text ? element.text.replace(/(\r\n|\n|\r)/gm,"") : '',
                     fontSize: parseInt(fontSize),
                     x: parseFloat(X.toFixed(2)),
@@ -61,7 +77,7 @@ export default function dimensionConv(data) {
                     height: parseFloat(newHeight.toFixed(2)),
                     src: element.exportedAsset ? element.exportedAsset : ''
                 };
-        }).filter(elem => elem.type != 'rect');  // remove this when rectangle issue is sorted.
+        });
     } else {
         resultTemplate = {...data.templateJSON};
     }

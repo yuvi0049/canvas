@@ -24,7 +24,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
     - name: npm test:ci
-      run: npm run test:ci
+      run: npm run test
       env:
          CI: ''
     - name: Build

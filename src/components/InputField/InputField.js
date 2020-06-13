@@ -63,7 +63,7 @@ export default function InputField(props) {
                 multiline
                 value={templateJSON}
                 onChange={handleChangeForText}
-                rows={16}
+                rows={18}
               />
 
               <Button variant="contained" color="primary" onClick={() => createCanvas(true)} style={{margin: '80px 10px'}}>

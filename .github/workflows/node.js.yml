@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: build
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,12 +21,12 @@ jobs:
     steps:
     - name: checkout Repo
       uses: actions/checkout@master
-    - name: GitHub Action for Firebase
-      uses: w9jds/firebase-action@v1.3.1
     - name: Install Dependencies
       run: npm install
     - name: Build
       run: npm run build
+    - name: Archive Artifacts
+      uses: actions/upload-artifact@master
       with:
         name: build
         path: build

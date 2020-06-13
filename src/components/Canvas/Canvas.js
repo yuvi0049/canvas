@@ -25,10 +25,23 @@ export default function Canvas(props) {
       });
 
       canvas.loadFromJSON(JSON.stringify(props.layers), canvas.renderAll.bind(canvas), function(o, object) {
-        object.selectable = true; 
-      });
+        if (object.subType === "TEXT") {
+          const text = new fabric.Text(object.text, {
+            fontFamily: object.fontFamily,
+            fontStyle: object.fontStyle,
+            textAlign: object.textAlign,
+            fontFamily: object.fontFamily,
+            lineHeight: object.lineHeight,
+            fontSize: object.fontSize,
+            left: object.left,
+            top: object.top + object.height
+          });
+          
+          canvas.add(text);
+        }
 
-      canvas.renderAll.bind(canvas);
+        canvas.renderAll();
+      });
 
       props.layers && window.scrollTo({
         top: document.getElementsByClassName('makeStyles-root-2')[0].clientHeight + 50,
@@ -52,8 +65,7 @@ export default function Canvas(props) {
           {props.layers ? (<Fragment>
             <div className={classes.root}>
               <h3>Your Canvas here</h3>
-
-              <canvas ref={canvasRef} width={800} height={1000} />
+              <canvas ref={canvasRef} width={1240} height={1240} />
             </div>
 
             <Button variant="contained" color="primary" onClick={saveCanvas} style={{margin: '10px'}}>

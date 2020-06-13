@@ -66,7 +66,7 @@ export default function InputField(props) {
                 rows={16}
               />
 
-              <Button variant="contained" color="primary" onClick={() => createCanvas(true)} style={{margin: '40px 10px'}}>
+              <Button variant="contained" color="primary" onClick={() => createCanvas(true)} style={{margin: '80px 10px'}}>
                 Render Default Canvas
               </Button>
 

@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Canvas(props) {
     const canvasRef = useRef(null)
     const classes = useStyles();
-    const [value, setValue] = React.useState('');
 
     let canvas;
 
@@ -65,10 +64,6 @@ export default function Canvas(props) {
      }
     }
 
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    };
-
     const saveCanvas = () => {
       const fileDownload = require('js-file-download');
       fileDownload(canvas.toJSON(), 'downloadCanvas.json');
@@ -78,6 +73,7 @@ export default function Canvas(props) {
         <Fragment>
           {!!props.defaultRender ? (
             <div className={classes.root}>
+              <h3>Default Canvas</h3>
               <canvas ref={canvasRef} width={920} height={720} />
             </div>) : ''}
 

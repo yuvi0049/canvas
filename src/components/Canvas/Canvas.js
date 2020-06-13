@@ -26,8 +26,10 @@ export default function Canvas(props) {
 
       canvas.loadFromJSON(JSON.stringify(props.layers), canvasLoaded);
 
+      const classForScroll = document.getElementsByClassName('makeStyles-root-2')[0];
+
       props.layers && window.scrollTo({
-        top: document.getElementsByClassName('makeStyles-root-2')[0].clientHeight + 50,
+        top: classForScroll && classForScroll.clientHeight + 50,
         behavior: "smooth"
       });
     }, [props.layers]);

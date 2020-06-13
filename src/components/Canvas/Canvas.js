@@ -24,24 +24,7 @@ export default function Canvas(props) {
         backgroundColor : "#000"
       });
 
-      canvas.loadFromJSON(JSON.stringify(props.layers), canvas.renderAll.bind(canvas), function(o, object) {
-        if (object.subType === "TEXT") {
-          const text = new fabric.Text(object.text, {
-            fontFamily: object.fontFamily,
-            fontStyle: object.fontStyle,
-            textAlign: object.textAlign,
-            fontFamily: object.fontFamily,
-            lineHeight: object.lineHeight,
-            fontSize: object.fontSize,
-            left: object.left,
-            top: object.top + object.height
-          });
-          
-          canvas.add(text);
-        }
-
-        canvas.renderAll();
-      });
+      canvas.loadFromJSON(JSON.stringify(props.layers), canvasLoaded);
 
       props.layers && window.scrollTo({
         top: document.getElementsByClassName('makeStyles-root-2')[0].clientHeight + 50,
@@ -49,7 +32,38 @@ export default function Canvas(props) {
       });
 
       props.setCanvas(canvas);
-    }, [props.layers])
+    }, [props.layers]);
+
+    const canvasLoaded = () => {
+      canvas.renderAll.bind(canvas);
+      const objs = props.layers['objects']; 
+
+      for(let i=0;objs && i< objs.length; i++){
+        if(objs[i].hasOwnProperty('subType')){
+          const fabric = window.fabric;
+
+          if (objs[i].subType === "TEXT") {
+            const text = new fabric.Text(objs[i].text, {
+              fontFamily: objs[i].fontFamily,
+              fontStyle: objs[i].fontStyle,
+              textAlign: objs[i].textAlign,
+              fontFamily: objs[i].fontFamily,
+              lineHeight: objs[i].lineHeight,
+              fontSize: objs[i].fontSize,
+              left: objs[i].left,
+              top: objs[i].top + objs[i].height
+            });
+            
+            canvas.add(text);
+          } 
+
+          fabric.util.requestAnimFrame(function render() {                      
+            canvas.renderAll();                     
+            fabric.util.requestAnimFrame(render);                
+          });
+        }
+     }
+    }
 
     const handleChange = (event) => {
       setValue(event.target.value);

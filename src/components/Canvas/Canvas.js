@@ -30,8 +30,6 @@ export default function Canvas(props) {
         top: document.getElementsByClassName('makeStyles-root-2')[0].clientHeight + 50,
         behavior: "smooth"
       });
-
-      props.setCanvas(canvas);
     }, [props.layers]);
 
     const canvasLoaded = () => {

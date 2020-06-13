@@ -6,7 +6,6 @@ export default function dimensionConv(data) {
 
     if (templateJSON && templateJSON.children) {
         let width = templateJSON.width;
-        let height = templateJSON.height;
 
         let updatedWidth,
             updatedHeight;

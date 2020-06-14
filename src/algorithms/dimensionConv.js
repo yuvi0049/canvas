@@ -65,8 +65,6 @@ export default function dimensionConv(data, defaultRender) {
 
             // @ Specific Cases
 
-            
-
             if (element.name === "Rectange") {
                 type = "rect";
             }

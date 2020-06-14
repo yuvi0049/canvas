@@ -24,7 +24,6 @@ export default function HomePage() {
         default: '',
         custom: ''
     });
-    const [defaultRender, setDefaultRender] = React.useState(true);
     
     const createCanvas = (templateJSON, dimension) => {
         if (dimension) {
@@ -32,8 +31,6 @@ export default function HomePage() {
         } else {
             setState({...state, default: dimensionConv({ templateJSON }, true)});
         }
-
-        setDefaultRender(!dimension);
     };
 
     ++childKey;

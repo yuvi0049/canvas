@@ -38,8 +38,9 @@ export default function dimensionConv(data, defaultRender) {
             if (defaultRender && updatedWidth === 1 && updatedHeight === 1) {
                 X = element.x;
                 Y = element.y;
-                newWidth = width;
-                newHeight = width;
+                newWidth = element.width;
+                newHeight = element.height;
+                fontSize = element.subType === "TEXT" && element.fontSize
             } else{
                 X = (element.x / width) * updatedWidth;
                 Y = (element.y / width) * updatedHeight;
@@ -56,13 +57,13 @@ export default function dimensionConv(data, defaultRender) {
                         X = X + Math.abs((newWidth - X) / 2);
                     }
                 }
+
+                if (element.subType === "TEXT") {
+                    fontSize = element.fontSize ? (element.fontSize / width) * updatedWidth : 0;
+                }
             };
 
             // @ Specific Cases
-
-            if (element.subType === "TEXT") {
-                fontSize = element.fontSize ? (element.fontSize / width) * updatedWidth : 0;
-            }
 
             if (element.name === "Rectange") {
                 type = "rect";
